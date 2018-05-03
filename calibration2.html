@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+
+
+
+
+<head>
+    <meta charset="UTF-8">
+    <!-- import CSS -->
+    <link rel="stylesheet" href="css/element.css">
+    <link href="css/calibration2.css" rel="stylesheet">
+</head>
+<body style="display: none">
+
+
+
+
+<div id="app">
+
+
+
+    <el-row :gutter="10">
+        <el-col :span="17">
+            <div class="grid-content bg-purple">
+                <h1>Calibration2</h1>
+                <template>
+                    <el-table
+                            :data="tableData"
+                            fixed
+                            style="width: 100%"
+                            max-height="500">
+
+                        <el-table-column
+                                prop="selected"
+                                label="operating"
+                                width="180">
+                            <!--<template slot-scope="scope">-->
+                                <!--<el-button v-if="selected"-->
+                                        <!--size="mini"-->
+                                        <!--@click="handleEdit(scope.$index, scope.row)">编辑-->
+                                <!--</el-button>-->
+
+                            <!--</template>-->
+
+
+
+
+
+                        </el-table-column>
+
+
+                        <el-table-column
+                                type="index"
+                                label="NO."
+                                width="50"
+                                :index="indexMethod">
+                        </el-table-column>
+
+
+                        <el-table-column
+                                prop="name"
+                                label="content"
+                                width="180">
+                        </el-table-column>
+
+                        <el-table-column
+                                prop="tag"
+                                label="finish"
+                                width="100"
+                        >
+                            <template slot-scope="scope">
+                                <el-tag
+                                        :type="scope.row.tag === 'no' ? 'danger' : 'success'"
+                                        close-transition>{{scope.row.tag}}</el-tag>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </template>
+
+
+
+
+            </div>
+        </el-col>
+        <el-col :span="6"><div class="grid-content bg-purple" style="text-align:center;">
+
+
+
+            <el-row><el-button class="mainbotton" type="primary" @click="xiangshang" icon="el-icon-arrow-up">Prev</el-button></el-row>
+            <el-row><el-button  class="mainbotton" type="primary" @click="xiangxia" icon="el-icon-arrow-down">Next</el-button></el-row>
+            <el-row><el-button  class="mainbotton" type="primary" @click="dialogVisible = true" icon="el-icon-news">Calib</el-button></el-row>
+
+            <!--<el-row>-->
+            <!--<div style="margin-top: 20px">-->
+                <!--<el-radio v-model="radio8" label="1" border size="medium">MODE1</el-radio>-->
+                <!--<el-radio v-model="radio8" label="2" border size="medium">MODE2</el-radio>-->
+            <!--</div>-->
+            <!--</el-row>-->
+
+
+
+            <el-row><el-button  class="mainbotton" type="primary" @click="wancheng" v-loading.fullscreen.lock="fullscreenLoading"
+                                v-bind:element-loading-text="loadingtext" icon="el-icon-search">Finish</el-button></el-row>
+
+            <el-row><el-button  class="mainbotton" type="primary" @click="backhome" v-loading.fullscreen.lock="fullscreenLoading"
+                                v-bind:element-loading-text="loadingtext" icon="el-icon-back" icon="el-icon-back">Back</el-button></el-row>
+
+
+
+
+
+
+
+
+
+
+
+        </div></el-col>
+    </el-row>
+
+
+
+    <el-dialog
+            title="start calibrating"
+            :visible.sync="dialogVisible"
+            width="30%"
+            :before-close="handleClose">
+        <span>{{message}}</span>
+        <span slot="footer" class="dialog-footer">
+
+            <el-button v-if="kaishi" type="primary" @click="kaishijiaozhun()">satrt</el-button>
+            <el-button v-if="fanhui" @click="fanhuijiaozhun()">back</el-button>
+  </span>
+    </el-dialog>
+
+
+</div>
+</body>
+<!--import Vue before Element-->
+<script src="js/vue.js"></script>
+<!--import JavaScript-->
+<script src="js/element.js"></script>
+<script src="js/axios.js"></script>
+<script>
+    vm=new Vue({
+        el: '#app',
+        data: function() {
+            return {
+
+                radio8: '1',
+                visible: false,
+                indexnow:0,
+                message:'please input the plate and confirm',
+                fullscreenLoading:false,
+                loadingtext: "the holder is closing!take care!",
+
+                dialogVisible: false,
+                kaishi:true,
+                fanhui:true,
+                ip:'192.168.88.1',
+
+
+                tableData: [{
+                    date: '2016-05-02',
+                    name: 'wangdashuai',
+                    selected:'--->',
+                    tag: 'no'
+                }]
+
+
+
+
+            }
+        },
+
+        mounted(){
+            document.getElementsByTagName('body')[0].style.display="block"
+        },
+
+        methods: {
+            indexMethod(index) {
+
+                return index + 1;
+            },
+
+            handleClose(done) {
+
+            },
+
+
+            xiangshang() {
+                if(this.indexnow >0){
+
+
+                    this.tableData[this.indexnow].selected='';
+                    this.indexnow--;
+                    this.tableData[this.indexnow].selected='--->';
+
+
+                }
+
+
+            },
+
+
+            xiangxia() {
+                if(this.indexnow < this.tableData.length-1){
+
+                    this.tableData[this.indexnow].selected='';
+                    this.indexnow++;
+                    this.tableData[this.indexnow].selected='--->';
+
+                }
+
+
+            },
+
+            wancheng(){
+                var temp=0;
+                for (var i=0;i<this.tableData.length;i++)
+                {
+                    if(this.tableData[i].tag=="yes")
+                        temp++;
+
+                }
+
+                if (temp<this.tableData.length){
+
+                    // alert("还有"+(this.tableData.length-temp).toString()+"个板子没有校准完!");
+                    this.$notify.error({
+                        title: 'Error',
+                        message: "still "+(this.tableData.length-temp).toString()+" plate havent calibrated yet!"
+                    });
+
+                }
+
+                else {
+
+
+
+                    this.fullscreenLoading = true;
+                    this.loadingtext = "the holder is closing!take care!";
+
+
+                    let _this = this;
+                    axios.put('http://'+this.ip+':8081/v1/lite/holder', 'in',{
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                        .then(function (response) {
+                            console.log(response);
+                            _this.fullscreenLoading = false;
+                            window.location.href="index.html";
+
+                        })
+                        .catch(function (response) {
+                            console.log(response);
+                            alert("吞入失败");
+                            _this.fullscreenLoading = false;
+
+                        });
+
+
+                }
+
+
+
+
+
+            },
+
+            backhome() {
+
+
+
+                this.fullscreenLoading = true;
+                this.loadingtext = "the holder is closing!take care!";
+
+
+                let _this = this;
+                axios.put('http://'+this.ip+':8081/v1/lite/holder', 'in',{
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(function (response) {
+                        console.log(response);
+                        _this.fullscreenLoading = false;
+                        window.location.href="index.html";
+
+                    })
+                    .catch(function (response) {
+                        console.log(response);
+                        alert("吞入失败");
+                        _this.fullscreenLoading = false;
+
+                    });
+
+
+
+
+            },
+
+
+            kaishijiaozhun() {
+                 // if(this.indexnow<this.tableData.length)
+
+
+                this.kaishi=false;
+                this.fanhui=false;
+                this.message="calibraing...dont move...";
+
+
+            //     setTimeout(() => {
+            //         this.tableData[this.indexnow].tag='yes';
+            //
+            //
+            //
+            //         //游标是否向下
+            //         if(this.indexnow < this.tableData.length-1){
+            //         this.tableData[this.indexnow].selected='';
+            //         this.indexnow++;
+            //         this.tableData[this.indexnow].selected='--->';
+            //         }
+            //
+            //         this.message="这张板子校准完成!";
+            //     this.fanhui=true;
+            // }, 1000);
+
+                // http://10.1.1.107:8081/v1/lite/standard_plate
+
+
+                    let _this=this;
+                    axios.put('http://'+this.ip+':8081/v1/lite/standard_plate')
+                    .then(function (response) {
+                        console.log(response);
+                        // _this.todos=response.data.Data;
+
+                        _this.tableData[_this.indexnow].tag='yes';
+                        //游标是否向下
+                        if(_this.indexnow < _this.tableData.length-1){
+                            _this.tableData[_this.indexnow].selected='';
+                            _this.indexnow++;
+                            _this.tableData[_this.indexnow].selected='--->';
+                        }
+
+                        _this.message="this plate has calibrated!";
+                        _this.fanhui=true;
+
+
+                    })
+                    .catch(function (response) {
+                        console.log(response);
+                        _this.message="calibration fail!";
+                        _this.fanhui=true;
+                    });
+
+
+
+
+
+
+
+
+            },
+
+            fanhuijiaozhun(){
+
+                this.dialogVisible = false;
+                this.kaishi=true;
+                this.message='please input the plate and confirm';
+
+
+
+
+            }
+
+
+
+
+
+
+        }
+    })
+</script>
+</html>

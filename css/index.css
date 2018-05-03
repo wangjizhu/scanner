@@ -1,0 +1,136 @@
+
+body{
+    font-family: "Microsoft YaHei","Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","微软雅黑",Arial,sans-serif;
+    /*color:#303133;*/
+    color:#ffffff
+
+}
+/*body{transform: scale(1,1);}*/
+body{zoom: 1.6;}
+/*canvas { border: 1px solid black; }*/
+/**/
+
+
+button{font-family: "Microsoft YaHei", "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", 微软雅黑, Arial, sans-serif;}
+
+
+#app3 > div:nth-child(2) > div.el-col.el-col-18 > div > div > div.el-tabs.el-tabs--top.el-tabs--border-card {
+    margin-top: 30px;
+
+}
+
+
+#app3 > div:nth-child(2) > div.el-col.el-col-18 > div > div > div.el-tabs.el-tabs--top.el-tabs--border-card > div.el-tabs__content{
+   padding-top: 5px;
+    padding-bottom: 2px;
+
+
+
+}
+
+
+/*#app3 > div:nth-child(2) > div.el-col.el-col-18 > div > div.el-dialog__wrapper.grid-content.bg-purple > div > div.el-dialog__body > div > div > div.el-tabs__content{*/
+    /*padding-left: 380px;*/
+
+/*}*/
+
+
+
+.bg{
+
+    /*position: absolute;*/
+    /*z-index: -1;*/
+    /*background:linear-gradient(75deg,rgba(55, 148, 192,.9)  0%,rgba(203, 235, 219,.9) 100%);*/
+    /*background:-webkit-linear-gradient(75deg,rgba(55, 148, 192,.9)  0%, rgba(203, 235, 219,.9) 100%);*/
+}
+#star {zoom:0.625;position: absolute;z-index: -1;display: block; cursor: default;}
+
+
+
+
+
+
+
+
+
+
+
+.el-row {
+    margin-bottom: 20px;
+&:last-child {
+     margin-bottom: 0;
+ }
+}
+.el-col {
+    border-radius: 4px;
+}
+.bg-purple-dark {
+    background: #99a9bf;
+}
+.bg-purple {
+    background: #d3dce6;
+}
+.bg-purple-light {
+    background: #e5e9f2;
+}
+.grid-content {
+    border-radius: 4px;
+    min-height: 36px;
+}
+.row-bg {
+    padding: 10px 0;
+    background-color: #f9fafc;
+}
+
+
+
+
+
+
+.el-header, .el-footer {
+    background-color: #B3C0D1;
+    color: #333;
+    text-align: center;
+    line-height: 60px;
+}
+
+.el-aside {
+    background-color: #D3DCE6;
+    color: #333;
+    text-align: center;
+    line-height: 200px;
+}
+
+.el-main {
+    background-color: #E9EEF3;
+    color: #333;
+    text-align: center;
+    line-height: 160px;
+}
+
+body > .el-container {
+    margin-bottom: 40px;
+}
+
+.el-container:nth-child(5) .el-aside,
+.el-container:nth-child(6) .el-aside {
+    line-height: 260px;
+}
+
+.el-container:nth-child(7) .el-aside {
+    line-height: 320px;
+}
+
+.mainbotton{
+    text-align:center;
+    zoom:2;
+
+}
+
+.mainbotton > .aaa {
+    width:110px;
+    text-align:center;
+}
+
+
+

@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Matrix Scanner</title>
+    <link rel="stylesheet" href="css/element.css">
+    <link href="css/index.css" rel="stylesheet">
+</head>
+<body style="display: none">
+
+
+<div class="bg">
+    <canvas id="star" width="1900px" height="1060px"></canvas>
+</div>
+
+
+<div id="app3">
+
+
+    <el-row style="margin-bottom: 0;text-align: center;" class="grid-content bg-purple">
+
+        <h1 style="margin-bottom: 25px;font-size: 2.5em;"><img src="img/logowhite_02.png" style="width:130px;">Matrix Scanner
+        </h1>
+
+    </el-row>
+
+
+    <el-row :gutter="5">
+        <el-col :span="18">
+            <div class="grid-content bg-purple">
+
+
+                <template v-if="state.home">
+
+                    <h1>HOME</h1>
+                    <p>Welcome to HCS scanner!</p>
+
+
+                </template>
+
+                <template v-if="state.data">
+                    <h1>DATA</h1>
+
+
+                    <!--<el-input v-model="platenum" placeholder="please input the num" suffix-icon="el-icon-search"></el-input>-->
+
+
+                    <div style="zoom:0.85;">
+                        <template>
+                            <el-table
+                                    :data="dataget"
+                                    border
+                                    style="width: 100%"
+                                    height="500">
+                                <el-table-column
+                                        fixed
+                                        prop="time"
+                                        label="TIME"
+                                        width="280">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="id"
+                                        label="ID"
+                                        width="180">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="no"
+                                        label="No."
+                                        width="180">
+                                </el-table-column>
+
+                                <el-table-column
+
+                                        label="OPERET"
+                                        width="180">
+                                    <template slot-scope="scope" style="text-align: center;">
+                                        <el-button type="primary" @click="handleClick1(scope.row)"
+                                                   icon="el-icon-view"></el-button>
+                                        <el-button type="primary" @click="handleClick2(scope.row)"
+                                                   icon="el-icon-delete"></el-button>
+                                    </template>
+                                </el-table-column>
+                            </el-table>
+                        </template>
+                    </div>
+
+                    <div>
+                        <el-pagination
+                                background
+                                layout="prev, pager, next"
+                                @current-change="handleCurrentChange"
+                                :current-page.sync="currentPage"
+                                :page-size="10"
+                                :total="totalpage">
+                        </el-pagination>
+
+                    </div>
+
+
+                    <el-dialog class="grid-content bg-purple"
+                               :visible.sync="dialogVisible"
+                               fullscreen>
+                        <div style="zoom:0.625">
+
+                            <!------------------------------------------------------------------------------------------->
+
+                            <el-tabs v-model="activeName2" type="border-card" @tab-click="handleClick">
+
+
+                                <el-tab-pane label="FAM" name="first">
+
+                                    <el-row>
+                                        <el-col :span="4" style="padding-left: 15px">
+                                            <div>
+                                                Max:{{aa.maxhuidu}}
+                                            </div>
+                                            <div>
+                                                Min:{{aa.minhuidu}}
+                                            </div>
+                                        </el-col>
+                                        <el-col :span="15" style="padding-left: 15px">
+                                            <div>
+                                                <canvas id="FAM" width="1140px" height="755px"></canvas>
+                                            </div>
+                                        </el-col>
+                                        <el-col :span="4">
+                                            <div style="zoom:2;text-align: center;padding-top: 100px">
+
+
+                                                <el-row>
+                                                    <el-button style="margin-bottom: 45px" type="primary"
+                                                               @click="aa.dacha()" icon="el-icon-close">Exclude
+                                                    </el-button>
+                                                </el-row>
+                                                <el-row>
+                                                    <el-button type="primary" @click="aa.quxiao()"
+                                                               icon="el-icon-check">Include
+                                                    </el-button>
+                                                </el-row>
+                                                <el-row>
+                                                    <div style="color:#000000;font-size: 10px;padding-top: 50px">
+
+                                                        ID {{platename0}}
+
+                                                    </div>
+
+                                                </el-row>
+                                            </div>
+
+                                        </el-col>
+                                    </el-row>
+
+
+                                </el-tab-pane>
+
+                                <el-tab-pane label="HEX" name="second">
+                                    <el-row>
+                                        <el-col :span="4" style="padding-left: 15px">
+                                            <div>
+                                                Max:{{bb.maxhuidu}}
+                                            </div>
+                                            <div>
+                                                Min:{{bb.minhuidu}}
+                                            </div>
+                                        </el-col>
+                                        <el-col :span="15" style="padding-left: 15px">
+                                            <div>
+                                                <canvas id="HEX" width="1140px" height="755px"></canvas>
+                                            </div>
+                                        </el-col>
+                                        <el-col :span="4">
+                                            <div style="zoom:2;text-align: center;padding-top: 100px">
+
+
+                                                <el-row>
+                                                    <el-button style="margin-bottom: 45px" type="primary"
+                                                               @click="bb.dacha()" icon="el-icon-close">Exclude
+                                                    </el-button>
+                                                </el-row>
+                                                <el-row>
+                                                    <el-button type="primary" @click="bb.quxiao()"
+                                                               icon="el-icon-check">Include
+                                                    </el-button>
+                                                </el-row>
+
+                                                <el-row>
+                                                    <div style="color:#000000;font-size: 10px;padding-top: 50px">
+
+                                                        ID{{platename0}}
+
+                                                    </div>
+
+                                                </el-row>
+
+                                            </div>
+
+                                        </el-col>
+                                    </el-row>
+                                </el-tab-pane>
+
+                                <el-tab-pane label="ROX" name="third">
+                                    <el-row>
+                                        <el-col :span="4" style="padding-left: 15px">
+                                            <div>
+                                                Max:{{cc.maxhuidu}}
+                                            </div>
+                                            <div>
+                                                Min:{{cc.minhuidu}}
+                                            </div>
+                                        </el-col>
+                                        <el-col :span="15" style="padding-left: 15px">
+                                            <div>
+                                                <canvas id="ROX" width="1140px" height="755px"></canvas>
+                                            </div>
+                                        </el-col>
+                                        <el-col :span="4">
+                                            <div style="zoom:2;text-align: center;padding-top: 100px">
+
+
+                                                <el-row>
+                                                    <el-button style="margin-bottom: 45px" type="primary"
+                                                               @click="cc.dacha()" icon="el-icon-close">Exclude
+                                                    </el-button>
+                                                </el-row>
+                                                <el-row>
+                                                    <el-button type="primary" @click="cc.quxiao()"
+                                                               icon="el-icon-check">Include
+                                                    </el-button>
+                                                </el-row>
+
+
+                                                <el-row>
+                                                    <div style="color:#000000;font-size: 10px;padding-top: 50px">
+
+                                                        ID{{platename0}}
+
+                                                    </div>
+
+
+                                                </el-row>
+
+                                        </el-col>
+                                    </el-row>
+                                </el-tab-pane>
+
+                            </el-tabs>
+                            <!------------------------------------------------------------------------------------------->
+
+                        </div>
+                        <span slot="footer" class="dialog-footer">
+
+                             <el-button type="primary" @click="dialogVisible = false">Back</el-button>
+                        </span>
+                    </el-dialog>
+
+
+                </template>
+
+                <template v-if="state.setting">
+                    <h1>SETTING</h1>
+
+                    <el-row :gutter="5">
+
+
+
+                            <div>
+                                <el-input placeholder="please input the IP address 192.168.0.1"></el-input>
+                            </div>
+
+
+
+                    </el-row>
+
+                    <el-row :gutter="5">
+
+
+
+                        <div>
+                            <el-input placeholder="please input the time 20180101"></el-input>
+                        </div>
+
+
+
+                    </el-row>
+
+
+
+                    <el-row>
+                        <div style="text-align:center;">
+                            Detect Mode
+                            <el-radio v-model="radio7" label="1" border>384wells</el-radio>
+                            <el-radio v-model="radio7" label="2" border>1536wells</el-radio>
+                        </div>
+
+                    </el-row>
+
+                    <el-row>
+                        <div style="text-align:center;">
+                            <el-button type="primary">confirm</el-button>
+                        </div>
+
+                    </el-row>
+                </template>
+
+                <template v-if="state.engineer">
+                    <h1>Configration</h1>
+                    <el-row>
+                        <el-button type="primary" @click="calibration1()">Calibration</el-button>
+                    </el-row>
+
+                    <el-row>
+                        <el-button type="primary" @click="calibration2()">Standard_plate</el-button>
+                    </el-row>
+                </template>
+
+                <template v-if="state.snapready">
+                    <h1>SCAN</h1>
+
+                    <el-input v-model="platenum" placeholder="please input the code"
+                              suffix-icon="el-icon-menu"></el-input>
+
+                    <p>please confirm the plate has been put well and click "Start"</p>
+
+                    <p>or click "Back" to homepage</p>
+
+                </template>
+
+                <!--<template style="margin-top: 20px;">-->
+                <template v-if="state.snaping" style="margin-top: 20px;">
+
+                    <!--<p>now is in SNAPING state</p>-->
+                    <!--<img src="img/loading.gif" v-if="snapingstate.scanning">-->
+                    <!--<p v-if="snapingstate.scanning">code scanning...</p>-->
+                    <!--<p v-if="snapingstate.snaping">image snapping...</p>-->
+                    <!--<p v-if="snapingstate.computing">image data computing...</p>-->
+                    <!--<p v-if="snapingstate.snapok">ok!complete!</p>-->
+
+
+                    <!--<transition name="el-fade-in">-->
+
+                    <div style="zoom:0.625;">
+                        <!--<div v-show="snapingstate.canvasok">-->
+
+                        <el-tabs v-model="activeName1" type="border-card" @tab-click="handleClick">
+
+
+                            <el-tab-pane label="FAM" name="first">
+
+                                 <el-row>
+                                    <el-col :span="20" style="padding-left: 15px">
+                                        <div>
+                                            <canvas id="FAM1" width="1140px" height="755px"></canvas>
+                                        </div>
+                                    </el-col>
+                                    <el-col :span="4">
+                                        <div style="zoom:2;text-align: center;padding-top: 100px">
+
+
+                                            <el-row>
+                                                <el-button style="margin-bottom: 45px" type="primary"
+                                                           @click="dd.dacha()" icon="el-icon-close">Exclude
+                                                </el-button>
+                                            </el-row>
+                                            <el-row>
+                                                <el-button type="primary" @click="dd.quxiao()" icon="el-icon-check">
+                                                    Include
+                                                </el-button>
+                                            </el-row>
+                                            <el-row>
+                                                <div style="color:#000000;font-size: 10px;padding-top: 50px">
+
+                                                    ID {{platename0}}
+
+                                                </div>
+
+                                            </el-row>
+                                        </div>
+
+                                    </el-col>
+                                </el-row>
+
+
+                            </el-tab-pane>
+
+                            <el-tab-pane label="HEX" name="second">
+                                <el-row>
+                                    <el-col :span="20" style="padding-left: 15px">
+                                        <div>
+                                            <canvas id="HEX1" width="1140px" height="755px"></canvas>
+                                        </div>
+                                    </el-col>
+                                    <el-col :span="4">
+                                        <div style="zoom:2;text-align: center;padding-top: 100px">
+
+
+                                            <el-row>
+                                                <el-button style="margin-bottom: 45px" type="primary"
+                                                           @click="ee.dacha()" icon="el-icon-close">Exclude
+                                                </el-button>
+                                            </el-row>
+                                            <el-row>
+                                                <el-button type="primary" @click="ee.quxiao()" icon="el-icon-check">
+                                                    Include
+                                                </el-button>
+                                            </el-row>
+
+                                            <el-row>
+                                                <div style="color:#000000;font-size: 10px;padding-top: 50px">
+
+                                                    {{platename0}}
+
+                                                </div>
+
+                                            </el-row>
+
+                                        </div>
+
+                                    </el-col>
+                                </el-row>
+                            </el-tab-pane>
+
+                            <el-tab-pane label="ROX" name="third">
+                                <el-row>
+                                    <el-col :span="20" style="padding-left: 15px">
+                                        <div>
+                                            <canvas id="ROX1" width="1140px" height="755px"></canvas>
+                                        </div>
+                                    </el-col>
+                                    <el-col :span="4">
+                                        <div style="zoom:2;text-align: center;padding-top: 100px">
+
+
+                                            <el-row>
+                                                <el-button style="margin-bottom: 45px" type="primary"
+                                                           @click="ff.dacha()" icon="el-icon-close">Exclude
+                                                </el-button>
+                                            </el-row>
+                                            <el-row>
+                                                <el-button type="primary" @click="ff.quxiao()" icon="el-icon-check">
+                                                    Include
+                                                </el-button>
+                                            </el-row>
+
+
+                                            <el-row>
+                                                <div style="color:#000000;font-size: 10px;padding-top: 50px">
+
+                                                    {{platename0}}
+
+                                                </div>
+
+
+                                            </el-row>
+
+                                    </el-col>
+                                </el-row>
+                            </el-tab-pane>
+
+                        </el-tabs>
+                    </div>
+
+
+                    <!--</transition>-->
+
+
+                </template>
+            </div>
+
+
+        </el-col>
+
+
+        <el-col :span="6">
+            <div style="padding-top: 20px;">
+                <el-row class="mainbotton" v-show="state.home">
+                    <el-button class="aaa" type="primary" @click="openFullScreen"
+                               v-loading.fullscreen.lock="fullscreenLoading"
+                               v-bind:element-loading-text="loadingtext" icon="el-icon-news">Scan
+                    </el-button>
+                </el-row>
+
+
+                <el-row class="mainbotton" v-show="state.snaping">
+                    <el-button class="aaa" type="primary" @click="openFullScreen4" icon="el-icon-caret-right">Next
+                    </el-button>
+                </el-row>
+
+                <el-row class="mainbotton" v-show="state.home">
+                    <el-button class="aaa" type="primary" @click="begindata()" icon="el-icon-document">Data</el-button>
+                </el-row>
+                <el-row class="mainbotton" v-show="state.setting">
+                    <el-button class="aaa" type="primary" @click="state.setting=false;state.home=true"
+                               icon="el-icon-back">Back
+                    </el-button>
+                </el-row>
+                <el-row class="mainbotton" v-show="state.home">
+                    <el-button class="aaa" type="primary" @click="state.home=false;state.setting=true"
+                               icon="el-icon-setting">Setting
+                    </el-button>
+                </el-row>
+                <el-row class="mainbotton" v-show="state.data">
+                    <el-button class="aaa" type="primary" @click="state.data=false;state.home=true" icon="el-icon-back">
+                        Back
+                    </el-button>
+                </el-row>
+                <el-row class="mainbotton" v-show="state.home">
+                    <el-button class="aaa" type="primary" @click="state.home=false;state.engineer=true"
+                               icon="el-icon-menu">Config
+                    </el-button>
+                </el-row>
+                <el-row class="mainbotton" v-show="state.engineer">
+                    <el-button class="aaa" type="primary" @click="state.engineer=false;state.home=true"
+                               icon="el-icon-back">Back
+                    </el-button>
+                </el-row>
+
+                <el-row class="mainbotton" v-show="state.snapready">
+                    <el-button class="aaa" type="primary" @click="openFullScreen2"
+                               v-loading.fullscreen.lock="fullscreenLoading"
+                               v-bind:element-loading-text="loadingtext" icon="el-icon-search"
+                    >Start
+                    </el-button>
+                </el-row>
+
+                <el-row class="mainbotton" v-show="state.snapready">
+                    <el-button class="aaa" type="primary" @click="openFullScreen3"
+                               v-loading.fullscreen.lock="fullscreenLoading"
+                               v-bind:element-loading-text="loadingtext" icon="el-icon-back"
+                    >Back
+                    </el-button>
+                </el-row>
+
+
+            </div>
+        </el-col>
+
+</div>
+</el-row>
+
+</div>
+
+
+<!--<script>-->
+    <!--setTimeout(() => {-->
+
+
+
+        <!--var oncanvas = document.getElementById("FAM1");-->
+        <!--var ctx = oncanvas.getContext('2d');-->
+        <!--ctx.strokeStyle= '#000000';-->
+        <!--ctx.beginPath();-->
+        <!--ctx.lineWidth = 2;-->
+        <!--ctx.moveTo(50,50);-->
+        <!--ctx.lineTo(80,80);-->
+        <!--ctx.stroke();-->
+        <!--ctx.closePath();-->
+
+
+
+
+            <!--}, 100);-->
+
+
+
+
+
+<!--</script>-->
+
+
+<!--import Vue before Element-->
+<script src="js/vue.js"></script>
+<!--import JavaScript-->
+<script src="js/element.js"></script>
+
+
+<!--<script src="plugins/vue/vue.js"></script>-->
+<!--<script src="plugins/element/element.js"></script>-->
+<script src="js/index.js"></script>
+<script src="js/panel.js"></script>
+<script src="js/star.js"></script>
+<script src="js/axios.js"></script>
+
+<script src="js/scan_result.js"></script>
+<script src="js/panel-object.js"></script>
+</body>
+
+</html>

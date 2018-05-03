@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+<canvas style="border: 1px solid black" id="FAM"  width="860px" height="500px"></canvas>
+</div>
+
+<button onclick="dacha()">打叉</button>
+<button onclick="quxiao()">取消</button>
+
+
+
+<script src="panel-object.js"></script>
+<script>
+
+    aa=new canvasplate('FAM');
+    aa.initcanvaspanel();
+
+    function dacha() {
+        aa.dacha();
+    }
+
+    function quxiao () {
+        aa.quxiao();
+    }
+
+
+
+</script>
+
+</body>
+</html>
